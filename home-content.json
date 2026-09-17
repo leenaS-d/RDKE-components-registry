@@ -1,0 +1,60 @@
+{
+  "eyebrow": "RDK-E · RDK Entertainment",
+  "title": "Powering Next-Generation Entertainment Experiences",
+  "description": "RDK-E is an open, modular and scalable software platform for entertainment devices and streaming ecosystems. It provides a common software foundation for rapid innovation, simplified platform integration, secure content delivery and fleet-scale operations across diverse hardware platforms.",
+  "badges": ["RDK8", "Open-source platform", "Firebolt enabled", "Thunder powered"],
+  "why": {
+    "title": "Why RDK-E?",
+    "description": "RDK-E standardizes core platform functionality while allowing operators, OEMs, and technology partners to focus on creating differentiated user experiences and services. The platform provides a layered architecture that improves portability, maintainability, and time-to-market.",
+    "cards": [
+      ["Application Layer", "Firebolt apps, the Lightning reference UI and the Firebolt framework — where portable third-party and OTT streaming apps run."],
+      ["Middleware Layer", "A single, consistent implementation of core device functionality — the Thunder framework, ENT services, media and DRM, and device management. This is where the Core RDK components live."],
+      ["Platform Layer", "BSP, device drivers, HAL implementations, SoC adaptations and Linux OS integration — abstracting hardware differences behind the platform layer."],
+      ["Independent evolution", "The layered architecture lets Application, Middleware and Platform components be developed, tested and updated independently."]
+    ]
+  },
+  "architecture": {
+    "title": "Everything in the Core RDK platform",
+    "cards": [
+      ["Core RDK components", "The middleware-layer components that deliver a single, consistent implementation of core RDK-E device functionality."],
+      ["Northbound APIs", "Standardized APIs the middleware exposes upward to the application layer, giving apps consistent access to device capabilities via Thunder and Firebolt."],
+      ["Southbound APIs", "The Hardware Abstraction Layer (HAL) between middleware and the platform layer — standardized interfaces that abstract hardware differences."],
+      ["Hardware specification", "Reference hardware requirements and device specifications defined for the Entertainment OS platform."]
+    ]
+  },
+  "platform_detail": [
+    {
+      "eyebrow": "Engineering scope",
+      "title": "Core engineering areas",
+      "groups": [
+        {"title": "BSP & Platform Engineering", "items": ["SoC enablement", "Yocto integration", "Driver development", "HAL implementation", "Kernel customization", "Performance optimization"]},
+        {"title": "Middleware Engineering", "items": ["Thunder services", "System services", "Device lifecycle management", "Content services", "Security frameworks"]},
+        {"title": "Application Engineering", "items": ["Firebolt-based applications", "UI development", "Streaming experiences", "Service integrations", "Partner ecosystems"]},
+        {"title": "Quality Engineering", "items": ["Functional testing", "Integration testing", "Automation frameworks", "Certification validation", "Performance benchmarking"]}
+      ]
+    },
+    {
+      "eyebrow": "Developer ecosystem",
+      "title": "Firebolt and Thunder",
+      "groups": [
+        {"title": "Firebolt", "description": "A standardized application framework for building portable and consistent entertainment experiences.", "items": ["App lifecycle management", "Content discovery", "Playback controls", "User personalization", "Analytics integration", "Advertising integration", "Device capability access"]},
+        {"title": "Thunder Framework", "description": "The service orchestration layer for the platform.", "items": ["Plugin architecture", "Service management", "IPC communication", "Remote management APIs", "Device abstraction", "Lifecycle management"]}
+      ]
+    },
+    {
+      "eyebrow": "Platform capabilities",
+      "title": "Media, security and operations",
+      "groups": [
+        {"title": "Media & Content Platform", "items": ["Adaptive streaming", "Media playback services", "Audio processing", "Video rendering", "Content protection", "Playback analytics", "Cloud-connected media services"]},
+        {"title": "Security Services", "items": ["Secure boot", "Content protection", "DRM integration", "Certificate management", "Secure software updates", "Platform integrity validation", "Access control mechanisms"]},
+        {"title": "Fleet-Scale Operations", "items": ["Remote device management", "OTA software updates", "Canary deployments", "Rollback support", "Health monitoring", "Remote diagnostics", "Configuration management", "Compliance reporting"]},
+        {"title": "Observability & Telemetry", "items": ["CPU utilization", "Memory consumption", "Service health", "Application performance", "Crash analytics", "Startup metrics", "Network statistics", "Platform reliability"]}
+      ]
+    }
+  ],
+  "facts": {
+    "eyebrow": "Quick facts",
+    "title": "Built for modern entertainment platforms",
+    "items": ["Open source platform", "Firebolt enabled", "Thunder powered", "Cloud connected", "Secure by design", "Fleet scale ready", "Multi-SoC support", "Continuous delivery focus"]
+  }
+}
