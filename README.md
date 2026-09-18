@@ -1,4 +1,4 @@
-# RDKE Platform Reference
+# Core RDK Entertainment Platform Reference
 
 A self-contained static reference site and generator for RDKE. All inputs,
 scripts, styles, assets, and generated pages live in this directory.
@@ -7,15 +7,21 @@ scripts, styles, assets, and generated pages live in this directory.
 
 Run from the `RDKE` directory:
 
-```powershell
+```python
 python build.py
+```
+
+Import any API workbook directly by providing its output and column mappings:
+
+```python
+python import_apis.py Southbound-apis.xlsx southbound-apis.json --map halInterface="HAL interface" --map repo="Repo name" --map source=Source
 ```
 
 The build writes the home page, Core RDK Components page, northbound API page,
 southbound API page, and hardware specifications page. Individual generators
 are also available:
 
-```powershell
+```python
 python gen_base_page.py
 python gen_component_registry_page.py
 python gen_nbi_page.py
@@ -26,25 +32,25 @@ python gen_hwcompat_page.py
 `build.py` uses only the Python standard library. Use `python build.py --check`
 to validate the local JSON inputs and generated page presence.
 
-## Generator design
-
-The scripts are RDKE-specific adaptations of the source repository generators.
-They do not import the parent repository's `layout.py`, PDF/XLSX extraction,
-remote DML/HAL maps, or Core RDK Broadband navigation. This keeps RDKE portable
-when it is moved into its own repository.
+The API pages are generated from `Northbound-apis.xlsx` and
+`Southbound-apis.xlsx` when the workbooks are present. The generic converter
+maps each workbook into its corresponding JSON file before the page is rendered.
+Southbound workbooks use `HAL interface`, `Repo name`, and `Source`; Northbound
+workbooks use `Component`, `API`, `Description`, and `Reference`.
 
 ## Data files
 
-- `home-content.json` - Home page copy, architecture cards, and RDK8 context.
-- `components.json` - Core RDK component registry from the pinned
-	`meta-rdk/docs/core-components/core-v-components.json` source.
-- `northbound-apis.json` - Northbound API records, currently empty.
-- `southbound-apis.json` - Southbound API records, currently empty.
-- `hardware-spec.json` - Hardware profiles, currently empty.
+- [components.json](components.json) - Core RDK component registry data.
+- [northbound-apis.json](northbound-apis.json) - Generated Northbound API data.
+- [southbound-apis.json](southbound-apis.json) - Generated Southbound API data.
+- [Southbound-apis.xlsx](Southbound-apis.xlsx) - Southbound API source workbook.
+- `Northbound-apis.xlsx` - Expected Northbound API source workbook in this repository.
+- [hardware-spec.json](hardware-spec.json) - Extracted hardware specification data.
+- [hardware-specifications.html](hardware-specifications.html) - Rendered hardware specification page.
 
-The northbound and southbound specification pages are intentionally not
-included yet. The API and hardware list pages are ready to be populated when
-the Excel workbook and hardware profiles are provided.
+Northbound and Southbound API source data is expected as Excel workbooks in this
+repository. The hardware specification source is expected as a PDF named
+`hardware-spec.pdf`; the build extracts it into [hardware-spec.json](hardware-spec.json).
 
 ## Hardware Spec PDF extraction
 
