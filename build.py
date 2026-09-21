@@ -91,7 +91,7 @@ def linked_cards(items: list[list[str]], links: list[str]) -> str:
 
 def linked_metric_cards(items: list[list[str]], links: list[str], metrics: list[object]) -> str:
     return '<div class="grid">' + "".join(
-        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}">{f"<strong style=\"display:block;font-size:2.4rem;color:#2457d6\">{esc(metrics[index])}</strong>" if metrics[index] is not None else ""}<h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
+        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}"><strong style="display:block;min-height:44px;font-size:2.4rem;color:#2457d6">{esc(metrics[index]) if metrics[index] is not None else "&nbsp;"}</strong><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
         for index, item in enumerate(items)
     ) + "</div>"
 
