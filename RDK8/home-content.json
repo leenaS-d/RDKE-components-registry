@@ -1,20 +1,34 @@
 {
-  "eyebrow": "Powering Next-Generation Entertainment Experiences",
+  "eyebrow": "RDK8 for Video · Development Preview",
   "title": "Core RDK Entertainment Platform",
-  "description": "RDK-E is an open, modular and scalable software platform for entertainment devices and streaming ecosystems. It provides a common software foundation for rapid innovation, simplified platform integration, secure content delivery and fleet-scale operations across diverse hardware platforms.",
-  "badges": ["Apache-2.0 / LGPL-2.1", "Open-source platform", "Firebolt enabled", "Thunder powered"],
+  "description": "RDKE provides a flexible software foundation for entertainment platforms, built on reusable components, consistent APIs, and hardware abstraction. RDK8 extends this foundation with Firebolt Connect, enabling standardized app delivery, earlier validation, and smoother integration across RDK-powered devices.",
+  "badges": ["Development Preview", "Firebolt Connect", "Thunder powered", "Apache-2.0/LGPL-2.1"],
   "why": {
-    "title": "Why RDK-E?",
+    "title": "Why choose RDK-E?",
     "description": "RDK-E standardizes core platform functionality while allowing operators, OEMs, and technology partners to focus on creating differentiated user experiences and services. The platform provides a layered architecture that improves portability, maintainability, and time-to-market.",
     "cards": [
-      ["Application Layer", "Firebolt apps, the Lightning reference UI and the Firebolt framework — where portable third-party and OTT streaming apps run."],
-      ["Middleware Layer", "A single, consistent implementation of core device functionality — the Thunder framework, ENT services, media and DRM, and device management. This is where the Core RDK components live."],
-      ["Vendor Layer", "BSP, device drivers, HAL implementations, SoC adaptations and Linux OS integration — abstracting hardware differences behind the vendor layer."],
-      ["Independent evolution", "The layered architecture lets Application, Middleware and Platform components be developed, tested and updated independently."]
+      ["Open and reusable", "An open, modular platform built from reusable components that can be configured across STB entertainment platforms."],
+      ["Consistent interfaces", "Common APIs and services that help applications work consistently across diverse device platforms."],
+      ["Hardware portability", "Layered abstractions that reduce hardware coupling and simplify integration across SoCs and vendor platforms."],
+      ["Faster delivery", "Reusable platform capabilities that help operators, OEMs, and technology partners focus on differentiated experiences."]
+    ]
+  },
+  "benefits": {
+    "title": "Key benefits of RDK8",
+    "cards": [
+      ["Earlier app validation", "Firebolt Connect enables earlier validation of app onboarding, lifecycle behavior, and platform integration."],
+      ["Scalable app delivery", "A standardized model supports web and native apps through containerized delivery across the RDK ecosystem."],
+      ["Lower integration risk", "Early testing on real implementations helps partners identify performance, stability, and compatibility issues sooner."],
+      ["Ecosystem readiness", "A shared release direction helps operators, OEMs, silicon partners, and developers coordinate adoption and planning."]
     ]
   },
   "architecture": {
     "title": "Everything in the Core RDK platform",
+    "layers": [
+      ["Application Layer", "Firebolt Connect, web and native apps, standardized onboarding, and app lifecycle experiences."],
+      ["Middleware Layer", "Thunder services, entertainment services, media, DRM, device management, and platform capabilities."],
+      ["Vendor Layer", "Real hardware validation across SoCs, drivers, HAL implementations, Linux integration, and platform-specific OSS."]
+    ],
     "cards": [
       ["Core RDK components", "The middleware-layer components that deliver a single, consistent implementation of core RDK-E device functionality."],
       ["Northbound APIs", "Standardized APIs the middleware exposes upward to the application layer, giving apps consistent access to device capabilities via Thunder and Firebolt."],
@@ -24,8 +38,8 @@
   },
   "platform_detail": [
     {
-      "eyebrow": "Engineering scope",
-      "title": "Core engineering areas",
+      "eyebrow": "Platform engineering",
+      "title": "Platform Engineering",
       "groups": [
         {"title": "BSP & Platform Engineering", "items": ["SoC enablement", "Hardware abstraction", "Driver development", "HAL implementation", "Kernel customization", "Performance optimization"]},
         {"title": "Middleware Engineering", "items": ["Thunder services", "System services", "Device lifecycle management", "Content services", "Security frameworks"]},
@@ -35,7 +49,7 @@
     },
     {
       "eyebrow": "Developer ecosystem",
-      "title": "Firebolt and Thunder",
+      "title": "Build with Firebolt and Thunder",
       "groups": [
         {"title": "Firebolt", "description": "A standardized application framework for building portable and consistent entertainment experiences.", "items": ["App lifecycle management", "Content discovery", "Playback controls", "User personalization", "Analytics integration", "Advertising integration", "Device capability access"]},
         {"title": "Thunder Framework", "description": "The service orchestration layer for the platform.", "items": ["Plugin architecture", "Service management", "IPC communication", "Remote management APIs", "Device abstraction", "Lifecycle management"]}
@@ -47,14 +61,14 @@
       "groups": [
         {"title": "Media & Content Platform", "items": ["Adaptive streaming", "Media playback services", "Audio processing", "Video rendering", "Content protection", "Playback analytics", "Cloud-connected media services"]},
         {"title": "Security Services", "items": ["Secure boot", "Content protection", "DRM integration", "Certificate management", "Secure software updates", "Platform integrity validation", "Access control mechanisms"]},
-        {"title": "Fleet-Scale Operations", "items": ["Remote device management", "OTA software updates", "Rollback support", "Health monitoring", "Remote diagnostics", "Configuration management", "Compliance reporting"]},
-        {"title": "Observability & Telemetry", "items": ["CPU utilization", "Memory consumption", "Service health", "Application performance", "Crash analytics", "Startup metrics", "Network statistics", "Platform reliability"]}
+        {"title": "Device Operations", "items": ["Remote device management", "OTA software updates", "Rollback support", "Health monitoring", "Remote diagnostics", "Configuration management", "Compliance reporting"]},
+        {"title": "Observability & Telemetry", "items": ["CPU utilization", "Memory consumption", "Service health", "Application performance", "Startup metrics", "Platform reliability"]}
       ]
     }
   ],
   "facts": {
     "eyebrow": "Quick facts",
     "title": "Built for modern entertainment platforms",
-    "items": ["Open source platform", "Firebolt enabled", "Thunder powered", "Hardware abstraction", "Secure by design", "Fleet scale ready", "Multi-SoC support", "Continuous delivery focus"]
+    "items": ["Open source platform", "Firebolt enabled", "Thunder powered", "Hardware abstraction", "Secure by design", "Operational readiness", "Multi-SoC support", "Continuous delivery focus"]
   }
 }

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 def esc(value: object) -> str:
-    return html.escape(str(value if value is not None else ""), quote=True)
+    return html.escape(str(value or ""), quote=True)
 
 
 def load(name: str) -> dict:
@@ -51,7 +51,6 @@ def shell(title: str, active: str, body: str, footer: str = "") -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title>
 <link rel="stylesheet" href="styles.css">
-<style>.hero .wrap{{max-width:none}}</style>
 </head>
 <body>
 {nav(active)}
@@ -64,40 +63,17 @@ def shell(title: str, active: str, body: str, footer: str = "") -> str:
 '''
 
 
-def hero(eyebrow: str, title: str, description: str, badges: list[str] | None = None, subtitle: str = "", subtitle_before_title: bool = False) -> str:
+def hero(eyebrow: str, title: str, description: str, badges: list[str] | None = None, subtitle: str = "") -> str:
     badge_html = "" if not badges else '<div class="badges">' + "".join(
         f'<span class="badge">{esc(item)}</span>' for item in badges
     ) + "</div>"
     eyebrow_html = f'<div class="eyebrow" style="font-size:1.1rem;letter-spacing:.08em">{esc(eyebrow)}</div>' if eyebrow else ""
     subtitle_html = f'<div class="hero-subtitle" style="font-size:.95rem;font-weight:600;color:#b8df63;margin:-4px 0 18px">{esc(subtitle)}</div>' if subtitle else ""
-    title_html = f'<h1 style="font-size:clamp(1.9rem,3.6vw,3.5rem)">{esc(title)}</h1>'
-    title_block = f"{subtitle_html}{title_html}" if subtitle_before_title else f"{title_html}{subtitle_html}"
-    return f'''<section class="hero"><div class="wrap">{eyebrow_html}{title_block}<p>{esc(description)}</p>{badge_html}</div></section>'''
+    return f'''<section class="hero"><div class="wrap">{eyebrow_html}<h1 style="font-size:clamp(1.9rem,3.6vw,3.5rem)">{esc(title)}</h1>{subtitle_html}<p>{esc(description)}</p>{badge_html}</div></section>'''
 
 
 def cards(items: list[list[str]]) -> str:
     return '<div class="grid">' + "".join(
-        f'<article class="card"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></article>'
-        for item in items
-    ) + "</div>"
-
-
-def linked_cards(items: list[list[str]], links: list[str]) -> str:
-    return '<div class="grid">' + "".join(
-        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
-        for index, item in enumerate(items)
-    ) + "</div>"
-
-
-def linked_metric_cards(items: list[list[str]], links: list[str], metrics: list[object]) -> str:
-    return '<div class="grid">' + "".join(
-        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}"><strong style="display:block;min-height:44px;font-size:2.4rem;color:#2457d6">{esc(metrics[index]) if metrics[index] is not None else "&nbsp;"}</strong><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
-        for index, item in enumerate(items)
-    ) + "</div>"
-
-
-def stacked_cards(items: list[list[str]]) -> str:
-    return '<div style="display:grid;gap:14px;max-width:980px">' + "".join(
         f'<article class="card"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></article>'
         for item in items
     ) + "</div>"

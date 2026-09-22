@@ -1,0 +1,215 @@
+"""Build the self-contained RDKE static reference site.
+
+Usage:
+    python build.py
+    python build.py --page components
+    python build.py --page all --check
+
+All inputs and outputs are kept inside this directory. The northbound,
+southbound, and hardware pages intentionally support empty datasets until
+their source workbook and profiles are provided.
+"""
+from __future__ import annotations
+
+import argparse
+import html
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+
+
+def release_state() -> dict:
+    return load("release-state.json")
+
+
+def esc(value: object) -> str:
+    return html.escape(str(value if value is not None else ""), quote=True)
+
+
+def load(name: str) -> dict:
+    return json.loads((ROOT / name).read_text(encoding="utf-8"))
+
+
+def nav(active: str) -> str:
+    links = [
+        ("index.html", "Home", "home"),
+        ("component-catalog.html", "Components Catalog", "components"),
+        ("northbound-api-spec.html", "Northbound API Spec", "northbound"),
+        ("southbound-api-spec.html", "Southbound API Spec", "southbound"),
+    ]
+    items = "".join(
+        f'<a class="{"active" if key == active else ""}" href="{href}">{label}</a>'
+        for href, label, key in links
+    )
+    return f'''<div class="accent"></div>
+<header class="nav"><a class="brand" href="index.html"><img src="RDK-logo.png" alt="RDK"></a><nav class="navlinks">{items}</nav></header>'''
+
+
+def shell(title: str, active: str, body: str, footer: str = "") -> str:
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{esc(title)}</title>
+<link rel="stylesheet" href="styles.css">
+<style>.hero .wrap{{max-width:none}}.api-controls{{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:24px}}.api-controls .release-panel{{margin-bottom:0}}.api-controls .toolbar{{margin:0 0 0 auto}}.api-controls input{{min-width:260px}}.release-panel{{display:flex;gap:12px;flex-wrap:wrap}}.release-pill{{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border:1px solid var(--border);border-radius:5px;color:var(--ink);background:#fff;box-shadow:var(--shadow);font:700 .75rem/1 Consolas,monospace;letter-spacing:.04em}}.release-pill span{{color:var(--muted);font-weight:600}}.table-wrap{{overflow-x:auto;border:1px solid var(--border);border-radius:4px;background:#fff}}table{{width:100%;border-collapse:collapse;table-layout:auto}}td,th{{vertical-align:top;padding:14px 16px;line-height:1.45}}th{{white-space:nowrap}}td{{min-width:120px;white-space:pre-line}}td:first-child{{min-width:220px}}td a{{overflow-wrap:anywhere}}.pill{{display:inline-block;padding:4px 10px;border-radius:999px;background:#eaf2ff;color:#2249a2;font-size:.8rem;font-weight:700}}.pill.core{{background:#dff7ea;color:#1d6b43;border:1px solid #a8e1bd}}@media(max-width:650px){{.api-controls{{align-items:flex-start;flex-direction:column}}.api-controls .toolbar{{width:100%;margin:0}}.api-controls input{{width:100%;min-width:0}}}}</style>
+<style>.status-published{{background:#e5f6eb;border-color:#9bd4aa;color:#1d6b43}}.status-published span{{color:#397a4d}}.status-draft{{background:#fff4d8;border-color:#edcf7a;color:#8a5a00}}.status-draft span{{color:#9a731f}}.version-pill{{background:#edf3ff;border-color:#b8c9ef;color:#2457d6}}.version-pill span{{color:#5873af}}</style>
+<style>.api-controls{{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,auto);align-items:center;gap:20px}}.api-controls>.release-panel{{min-width:0}}.api-controls>.toolbar{{justify-self:end;margin:0;min-width:260px}}@media(max-width:650px){{.api-controls{{grid-template-columns:1fr;gap:14px}}.api-controls>.toolbar{{justify-self:stretch;width:100%;min-width:0}}}}</style>
+</head>
+<body>
+{nav(active)}
+<main>
+{body}
+</main>
+<footer class="footer"><div class="wrap">{footer}</div></footer>
+</body>
+</html>
+'''
+
+
+def hero(eyebrow: str, title: str, description: str, badges: list[str] | None = None, subtitle: str = "", subtitle_before_title: bool = False, include_release: bool = True) -> str:
+    badge_html = "" if not badges else '<div class="badges">' + "".join(
+        f'<span class="badge">{esc(item)}</span>' for item in badges
+    ) + "</div>"
+    eyebrow_html = f'<div class="eyebrow" style="font-size:1.1rem;letter-spacing:.08em">{esc(eyebrow)}</div>' if eyebrow else ""
+    subtitle_html = f'<div class="hero-subtitle" style="font-size:.95rem;font-weight:600;color:#b8df63;margin:-4px 0 18px">{esc(subtitle)}</div>' if subtitle else ""
+    title_html = f'<h1 style="font-size:clamp(1.9rem,3.6vw,3.5rem)">{esc(title)}</h1>'
+    title_block = f"{subtitle_html}{title_html}" if subtitle_before_title else f"{title_html}{subtitle_html}"
+    state = release_state() if include_release else {}
+    release_html = f'<div class="release"><span>STATE: {esc(state.get("state", "Draft"))}</span><span>VERSION: {esc(state.get("version", "RDK8"))}</span><span>UPDATED: {esc(state.get("updated", "TBD"))}</span></div>' if include_release else ""
+    return f'''<section class="hero"><div class="wrap">{eyebrow_html}{title_block}<p>{esc(description)}</p>{badge_html}{release_html}</div></section>'''
+
+
+def release_panel(label: str, state: dict | None = None) -> str:
+    state = state or release_state()
+    status = state.get("state", state.get("status", "Draft"))
+    status_class = "published" if str(status).casefold() == "published" else "draft"
+    return f'''<div class="release-panel"><span class="release-pill status-{status_class}"><span>Catalog status:</span> {esc(status)}</span><span class="release-pill version-pill"><span>Version:</span> {esc(state.get("version", "RDK8"))}</span></div>'''
+def cards(items: list[list[str]]) -> str:
+    return '<div class="grid">' + "".join(
+        f'<article class="card"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></article>'
+        for item in items
+    ) + "</div>"
+
+
+def linked_cards(items: list[list[str]], links: list[str]) -> str:
+    return '<div class="grid">' + "".join(
+        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
+        for index, item in enumerate(items)
+    ) + "</div>"
+
+
+def linked_metric_cards(items: list[list[str]], links: list[str], metrics: list[object]) -> str:
+    return '<div class="grid">' + "".join(
+        f'<a class="card" style="display:block;text-decoration:none;color:inherit" href="{esc(links[index])}"><strong style="display:block;min-height:44px;font-size:2.4rem;color:#2457d6">{esc(metrics[index]) if metrics[index] is not None else "&nbsp;"}</strong><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></a>'
+        for index, item in enumerate(items)
+    ) + "</div>"
+
+
+def stacked_cards(items: list[list[str]]) -> str:
+    return '<div class="grid" style="max-width:980px">' + "".join(
+        f'<article class="card"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></article>'
+        for item in items
+    ) + "</div>"
+
+
+def grouped_cards(groups: list[dict]) -> str:
+    rendered = []
+    for group in groups:
+        description = f'<p>{esc(group["description"])}</p>' if group.get("description") else ""
+        items = "".join(f'<li>{esc(item)}</li>' for item in group.get("items", []))
+        rendered.append(f'<article class="card"><h3>{esc(group["title"])}</h3>{description}<ul>{items}</ul></article>')
+    return '<div class="grid">' + "".join(rendered) + "</div>"
+
+
+def build_api(
+    *,
+    data_file: str,
+    output_file: str,
+    active: str,
+    title: str,
+    description: str,
+    columns: list[str],
+    fields: list[str],
+    link_field: str | None = None,
+    search_placeholder: str | None = None,
+    empty_message: str | None = None,
+    sort_field: str | None = None,
+    draft_note: str | None = None,
+    pill_fields: list[str] | None = None,
+    strip_release_path: bool = False,
+) -> None:
+    data = load(data_file)
+    records = data.get("apis", [])
+    column_html = "".join(f"<th>{esc(column)}</th>" for column in columns)
+    ordered_records = sorted(records, key=lambda item: str(item.get(sort_field, "")).casefold()) if sort_field else records
+    row_data = [[item.get(field, "") for field in fields] for item in ordered_records]
+    rows = f'<tr><td class="empty" colspan="{len(fields)}">{esc(empty_message or f"No {title.lower()} have been loaded.")}</td></tr>' if not records else ""
+    script = ""
+    search = ""
+    table_id = f"{active}-rows"
+    if search_placeholder:
+        search_id = f"{active}-search"
+        search = f'<div class="toolbar"><input id="{search_id}" type="search" placeholder="{esc(search_placeholder)}" aria-label="{esc(search_placeholder)}"></div>'
+        script_data = json.dumps(row_data, ensure_ascii=True)
+        link_index = fields.index(link_field) if link_field else -1
+        pill_indexes = {fields.index(field) for field in (pill_fields or []) if field in fields}
+        link_value = f'String(item[{link_index}]).replace(/\\/releases\\/tag\\/[^/]+\\/?$/, "")' if strip_release_path and link_index >= 0 else f'item[{link_index}]'
+        cells = "".join(
+            f'''<td style="white-space:pre-line"><a href="${{esc({link_value})}}" target="_blank" rel="noopener">${{esc({link_value})}}</a></td>'''
+            if index == link_index else f'''<td style="white-space:pre-line">{'<span class="pill${item[' + str(index) + '].toLowerCase()==="core" ? " core" : ""}">${esc(item[' + str(index) + '])}</span>' if index in pill_indexes else '${esc(item[' + str(index) + '])}'}</td>'''
+            for index in range(len(fields))
+        )
+        script = f'''<script>const DATA={script_data};const esc=s=>{{const d=document.createElement('div');d.textContent=s;return d.innerHTML}};const search=document.querySelector('#{search_id}');const render=()=>{{const q=search.value.toLowerCase();const rows=DATA.filter(item=>item.join(' ').toLowerCase().includes(q));document.querySelector('#{table_id}').innerHTML=rows.length?rows.map(item=>`<tr>{cells}</tr>`).join(''):'<tr><td class="empty" colspan="{len(fields)}">No matching records.</td></tr>'}};search.addEventListener('input',render);render()</script>'''
+    else:
+        rows = "".join(
+            "<tr>" + "".join(
+                f'<td><a href="{esc(item.get(field, ""))}" target="_blank" rel="noopener">{esc(item.get(field, ""))}</a></td>'
+                if field == link_field else f'<td>{esc(item.get(field, ""))}</td>'
+                for field in fields
+            ) + "</tr>"
+            for item in ordered_records
+        )
+    table_body = f'''<div class="table-wrap" style="margin-top:24px"><table><thead><tr>{column_html}</tr></thead><tbody id="{table_id}">{rows}</tbody></table></div>'''
+    note = f'<aside role="note" aria-label="Note" style="margin:0 0 20px;max-width:820px;padding:14px 18px;border:1px solid #edcf7a;border-left:4px solid #b45309;border-radius:8px;background:#fff4d8;color:#8a5a00;font-size:.92rem;line-height:1.5;box-shadow:var(--shadow);"><strong style="display:block;margin-bottom:4px;color:#8a5a00;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;">Note</strong><span>{esc(draft_note)}</span></aside>' if draft_note else ""
+    body = hero("Interface catalog", title, description, include_release=False) + f'''<section class="section"><div class="api-controls">{release_panel("RDK8 list state", data)}{search}</div>{note}{table_body}</section>'''
+    body += script
+    (ROOT / output_file).write_text(shell(f"{title} | RDK8", active, body, f"{title} status: {data.get('status', 'Draft')}"), encoding="utf-8")
+
+
+def build(page: str) -> None:
+    from gen_base_page import build_home
+    from gen_component_registry_page import build_components
+    from gen_nbi_page import build_northbound
+    from gen_sbi_page import build_southbound
+
+    if page in ("all", "home"):
+        build_home()
+    if page in ("all", "components"):
+        build_components()
+    if page in ("all", "northbound"):
+        build_northbound()
+    if page in ("all", "southbound"):
+        build_southbound()
+
+
+def check() -> None:
+    required = ["index.html", "component-catalog.html", "northbound-api-spec.html", "southbound-api-spec.html"]
+    missing = [name for name in required if not (ROOT / name).exists()]
+    if missing:
+        raise SystemExit("Missing generated pages: " + ", ".join(missing))
+    for name in ("home-content.json", "components.json", "northbound-apis.json", "southbound-apis.json"):
+        load(name)
+    print(f"RDKE build check passed: {len(load('components.json')['components'])} components")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--page", choices=["all", "home", "components", "northbound", "southbound"], default="all")
+    parser.add_argument("--check", action="store_true", help="Validate inputs and generated page presence")
+    args = parser.parse_args()
+    build(args.page)
+    if args.check:
+        check()

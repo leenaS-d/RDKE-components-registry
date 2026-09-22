@@ -1,5 +1,5 @@
 """RDKE home-page generator."""
-from build import ROOT, esc, grouped_cards, hero, linked_metric_cards, load, shell, stacked_cards
+from build import ROOT, cards, esc, grouped_cards, hero, linked_cards, load, shell, stacked_cards
 
 
 def build_home() -> None:
@@ -16,11 +16,8 @@ def build_home() -> None:
     body += f'''<section class="section"><div class="eyebrow">Why RDKE</div><h2>{esc(why["title"])}</h2><p class="lede">{esc(why["description"])}</p>{stacked_cards(why["cards"])}</section>'''
     architecture = content["architecture"]
     body += f'''<section class="section alt"><div class="eyebrow">Architecture</div><h2>RDKE architecture</h2><div style="display:grid;gap:0;max-width:1000px">{''.join(f'<article class="card" style="border-left-color:{color};border-radius:0"><h3>{esc(layer[0])}</h3><p>{esc(layer[1])}</p></article>' for layer, color in zip(architecture["layers"], ("#29b6e8", "#7ac943", "#f5a623")))}</div></section>'''
-    architecture_links = ["component-registry.html", "northbound-apis.html", "southbound-apis.html", "hardware-specifications.html"]
-    architecture_metrics = [len(components.get("components", [])), len(northbound.get("apis", [])), len(southbound.get("apis", [])), None]
-    body += f'''<section class="section"><div class="eyebrow">Registry access</div><h2>Explore the Core RDK platform</h2>{linked_metric_cards(architecture["cards"], architecture_links, architecture_metrics)}</section>'''
+    body += f'''<section class="section alt"><div style="display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1080px"><div><div class="eyebrow">Core RDK platform</div><h2>Explore the registry</h2><p class="lede" style="margin-bottom:0">Review the platform building blocks, interfaces, and hardware references in one place.</p></div><span style="color:#5b6472;font:600 .72rem/1 Consolas,monospace;letter-spacing:.08em">REGISTRY INDEX</span></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:1080px;margin-top:28px"><a href="component-registry.html" style="display:flex;flex-direction:column;justify-content:space-between;min-height:150px;padding:22px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--border);border-top:4px solid #29b6e8"><span style="color:#5b6472;font:700 .7rem/1 Consolas,monospace;letter-spacing:.1em">01 / COMPONENTS</span><strong style="font-size:2.8rem;color:#2457d6">{len(components.get("components", []))}</strong><span style="color:#5b6472">Core RDK components <b style="float:right;color:#2457d6">↗</b></span></a><a href="southbound-apis.html" style="display:flex;flex-direction:column;justify-content:space-between;min-height:150px;padding:22px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--border);border-top:4px solid #7ac943"><span style="color:#5b6472;font:700 .7rem/1 Consolas,monospace;letter-spacing:.1em">02 / SOUTHBOUND</span><strong style="font-size:2.8rem;color:#2457d6">{len(southbound.get("apis", []))}</strong><span style="color:#5b6472">HAL interfaces <b style="float:right;color:#2457d6">↗</b></span></a><a href="northbound-apis.html" style="display:flex;flex-direction:column;justify-content:space-between;min-height:150px;padding:22px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--border);border-top:4px solid #f5a623"><span style="color:#5b6472;font:700 .7rem/1 Consolas,monospace;letter-spacing:.1em">03 / NORTHBOUND</span><strong style="font-size:2.8rem;color:#2457d6">{len(northbound.get("apis", []))}</strong><span style="color:#5b6472">API entries <b style="float:right;color:#2457d6">↗</b></span></a></div></section>'''
     (ROOT / "index.html").write_text(shell("RDKE. Core RDK Entertainment Platform", "home", body), encoding="utf-8")
-
 
 if __name__ == "__main__":
     build_home()
