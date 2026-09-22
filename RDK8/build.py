@@ -80,7 +80,7 @@ def hero(eyebrow: str, title: str, description: str, badges: list[str] | None = 
     title_block = f"{subtitle_html}{title_html}" if subtitle_before_title else f"{title_html}{subtitle_html}"
     state = release_state() if include_release else {}
     release_html = f'<div class="release"><span>STATE: {esc(state.get("state", "Draft"))}</span><span>VERSION: {esc(state.get("version", "RDK8"))}</span><span>UPDATED: {esc(state.get("updated", "TBD"))}</span></div>' if include_release else ""
-    return f'''<section class="hero"><div class="wrap">{eyebrow_html}{title_block}<p>{esc(description)}</p>{badge_html}{release_html}</div></section>'''
+    return f'''<section class="hero" style="height:clamp(360px,32vw,440px);min-height:360px;padding:52px 5vw 42px;display:flex;align-items:center;overflow:visible"><div class="wrap" style="width:100%">{eyebrow_html}{title_block}<p>{esc(description)}</p>{badge_html}{release_html}</div></section>'''
 
 
 def release_panel(label: str, state: dict | None = None) -> str:

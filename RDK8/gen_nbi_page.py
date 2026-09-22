@@ -32,7 +32,7 @@ def build_northbound() -> None:
         search_placeholder="Search Northbound APIs",
         empty_message="No Northbound APIs have been loaded.",
         sort_field="component",
-        draft_note="This is the first Firebolt specification release, published as a development preview for early review and validation.",
+        draft_note="This is the first Firebolt API specification release, published as a development preview for early review and validation of RDK8’s standardized, versioned app API layer.",
     )
 
 if __name__ == "__main__":

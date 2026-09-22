@@ -627,6 +627,22 @@
       "type": "core",
       "releaseTag": "3.0.15",
       "url": "https://www.openssl.org"
+    },
+    {
+      "name": "entservices-apis",
+      "category": "Entertainment Services",
+      "layer": "middleware",
+      "type": "core",
+      "releaseTag": "3.4.2",
+      "url": "https://github.com/rdkcentral/entservices-apis/releases/tag/3.4.2"
+    },
+    {
+      "name": "entservices-xcast",
+      "category": "Entertainment Services",
+      "layer": "middleware",
+      "type": "core",
+      "releaseTag": "2.0.2",
+      "url": "https://github.com/rdkcentral/entservices-xcast/releases/tag/2.0.2"
     }
   ]
 }
