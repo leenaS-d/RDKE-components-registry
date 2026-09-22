@@ -38,7 +38,7 @@ def build_home() -> None:
     body += f'''<section class="section alt"><div class="eyebrow">RDK8 benefits</div><h2>{esc(benefits["title"])}</h2>{cards(benefits["cards"])}</section>'''
     footer = "Copyright © 2026 RDK Management, LLC"
     page = shell("RDKE. Core RDK Entertainment Platform", "home", body, footer)
-    (ROOT / "index.html").write_text(page.replace("</body>", CONTACT_WIDGET + "\n</body>"), encoding="utf-8")
+    (ROOT / "index.html").write_text(page, encoding="utf-8")
 
 
 if __name__ == "__main__":
