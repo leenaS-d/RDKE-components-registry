@@ -47,6 +47,7 @@ def nav(active: str) -> str:
 
 
 def shell(title: str, active: str, body: str, footer: str = "") -> str:
+    footer_html = f'<footer class="footer"><div class="wrap">{footer}</div></footer>' if footer else ""
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -63,7 +64,7 @@ def shell(title: str, active: str, body: str, footer: str = "") -> str:
 <main>
 {body}
 </main>
-<footer class="footer"><div class="wrap">{footer}</div></footer>
+{footer_html}
 </body>
 </html>
 '''
@@ -176,7 +177,7 @@ def build_api(
     note = f'<aside role="note" aria-label="Note" style="margin:0 0 20px;max-width:820px;padding:14px 18px;border:1px solid #edcf7a;border-left:4px solid #b45309;border-radius:8px;background:#fff4d8;color:#8a5a00;font-size:.92rem;line-height:1.5;box-shadow:var(--shadow);"><strong style="display:block;margin-bottom:4px;color:#8a5a00;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;">Note</strong><span>{esc(draft_note)}</span></aside>' if draft_note else ""
     body = hero("Interface catalog", title, description, include_release=False) + f'''<section class="section"><div class="api-controls">{release_panel("RDK8 list state", data)}{search}</div>{note}{table_body}</section>'''
     body += script
-    (ROOT / output_file).write_text(shell(f"{title} | RDK8", active, body, f"{title} status: {data.get('status', 'Draft')}"), encoding="utf-8")
+    (ROOT / output_file).write_text(shell(f"{title} | RDK8", active, body), encoding="utf-8")
 
 
 def build(page: str) -> None:

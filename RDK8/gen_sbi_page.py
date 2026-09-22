@@ -21,7 +21,7 @@ def build_southbound() -> None:
         data_file="southbound-apis.json",
         output_file="southbound-api-spec.html",
         active="southbound",
-        title="Southbound API Spec",
+        title="Southbound API Specifications",
         description="The Hardware Abstraction Layer (HAL) between middleware and the vendor layer — standardized interfaces that abstract hardware differences.",
         columns=["HAL interface", "Version", "Source"],
         fields=["halInterface", "releaseTag", "source"],

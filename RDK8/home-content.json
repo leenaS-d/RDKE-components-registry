@@ -16,9 +16,9 @@
   "benefits": {
     "title": "Key benefits of RDK8",
     "cards": [
-      ["Earlier app validation", "Firebolt Connect enables earlier validation of app onboarding, lifecycle behavior, and platform integration."],
+      ["Earlier app validation", "Firebolt Connect enables earlier validation of app onboarding, lifecycle behavior, platform integration, and compatibility before hardware release."],
       ["Scalable app delivery", "A standardized model supports web and native apps through containerized delivery across the RDK ecosystem."],
-      ["Lower integration risk", "Early testing on real implementations helps partners identify performance, stability, and compatibility issues sooner."],
+      ["Lower integration risk", "Integration testing on real implementations helps partners identify interface, performance, stability, and compatibility issues sooner."],
       ["Ecosystem readiness", "A shared release direction helps operators, OEMs, silicon partners, and developers coordinate adoption and planning."]
     ]
   },
