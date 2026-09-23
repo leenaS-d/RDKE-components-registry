@@ -12,7 +12,7 @@ def build_southbound() -> None:
         ROOT / "southbound-apis.json",
         {
             "halInterface": ("hal interface", "interface", "header", "api"),
-            "repo": ("repo name", "repo", "repository"),
+            "version": ("version", "release", "tag", "release/tag version"),
             "source": ("source", "reference", "url"),
         },
     )
@@ -20,10 +20,10 @@ def build_southbound() -> None:
         data_file="southbound-apis.json",
         output_file="southbound-apis.html",
         active="southbound",
-        title="Southbound APIs",
+        title="Southbound API Specifications",
         description="The Hardware Abstraction Layer (HAL) between middleware and the vendor layer — standardized interfaces that abstract hardware differences.",
-        columns=["HAL interface", "Repo", "Source"],
-        fields=["halInterface", "repo", "source"],
+        columns=["HAL interface", "Version", "Source"],
+        fields=["halInterface", "version", "source"],
         link_field="source",
         search_placeholder="Search Southbound APIs",
         empty_message="No Southbound APIs have been loaded.",

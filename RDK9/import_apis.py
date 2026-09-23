@@ -64,6 +64,7 @@ def convert_excel_to_json(
     workbook_path: Path,
     output_path: Path,
     field_mapping: dict[str, tuple[str, ...]],
+    optional_fields: set[str] | None = None,
 ) -> int:
     """Convert any first-sheet XLSX table into a JSON ``apis`` array."""
     if not workbook_path.exists():
@@ -74,16 +75,17 @@ def convert_excel_to_json(
         raise ValueError(f"{workbook_path.name} has no data rows")
     headers = [str(value).strip().lower() for value in rows[0]]
     positions = {}
+    optional_fields = optional_fields or set()
     for field, field_aliases in field_mapping.items():
         position = next((headers.index(alias) for alias in field_aliases if alias in headers), None)
-        if position is None:
+        if position is None and field not in optional_fields:
             raise ValueError(f"{workbook_path.name} is missing a column for {field}")
         positions[field] = position
 
     records = []
     for row in rows[1:]:
         record = {
-            field: row[position].strip() if position < len(row) and row[position] else ""
+            field: row[position].strip() if position is not None and position < len(row) and row[position] else ""
             for field, position in positions.items()
         }
         if any(record.values()):

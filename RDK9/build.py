@@ -30,9 +30,9 @@ def load(name: str) -> dict:
 def nav(active: str) -> str:
     links = [
         ("index.html", "Home", "home"),
-        ("component-registry.html", "Core RDK Components", "components"),
-        ("northbound-apis.html", "Northbound APIs", "northbound"),
-        ("southbound-apis.html", "Southbound APIs", "southbound"),
+        ("component-registry.html", "Components Catalog", "components"),
+        ("northbound-apis.html", "Northbound API Spec", "northbound"),
+        ("southbound-apis.html", "Southbound API Spec", "southbound"),
         ("hardware-specifications.html", "Hardware specifications", "hardware"),
     ]
     items = "".join(
@@ -44,6 +44,7 @@ def nav(active: str) -> str:
 
 
 def shell(title: str, active: str, body: str, footer: str = "") -> str:
+    footer_html = f'<footer class="footer"><div class="wrap">{footer}</div></footer>' if footer else ""
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -57,7 +58,7 @@ def shell(title: str, active: str, body: str, footer: str = "") -> str:
 <main>
 {body}
 </main>
-<footer class="footer"><div class="wrap">{footer}</div></footer>
+{footer_html}
 </body>
 </html>
 '''
@@ -69,7 +70,7 @@ def hero(eyebrow: str, title: str, description: str, badges: list[str] | None = 
     ) + "</div>"
     eyebrow_html = f'<div class="eyebrow" style="font-size:1.1rem;letter-spacing:.08em">{esc(eyebrow)}</div>' if eyebrow else ""
     subtitle_html = f'<div class="hero-subtitle" style="font-size:.95rem;font-weight:600;color:#b8df63;margin:-4px 0 18px">{esc(subtitle)}</div>' if subtitle else ""
-    return f'''<section class="hero"><div class="wrap">{eyebrow_html}<h1 style="font-size:clamp(1.9rem,3.6vw,3.5rem)">{esc(title)}</h1>{subtitle_html}<p>{esc(description)}</p>{badge_html}</div></section>'''
+    return f'''<section class="hero" style="height:clamp(360px,32vw,440px);min-height:360px;padding:52px 5vw 42px;display:flex;align-items:center;overflow:visible"><div class="wrap" style="width:100%">{eyebrow_html}<h1 style="font-size:clamp(1.9rem,3.6vw,3.5rem)">{esc(title)}</h1>{subtitle_html}<p>{esc(description)}</p>{badge_html}</div></section><style>@media(max-width:650px){{.hero{{height:auto!important;min-height:0!important;padding:48px 20px 44px!important}}.hero h1{{font-size:clamp(1.9rem,9vw,2.8rem)!important}}.hero p{{font-size:1rem!important;line-height:1.5}}.hero .badges{{margin-top:18px}}}}</style>'''
 
 
 def cards(items: list[list[str]]) -> str:
@@ -118,8 +119,8 @@ def build_api(
         script_data = json.dumps(row_data, ensure_ascii=True)
         link_index = fields.index(link_field) if link_field else -1
         cells = "".join(
-            f'''<td><a href="${{esc(item[{index}])}}" target="_blank" rel="noopener">${{esc(item[{index}])}}</a></td>'''
-            if index == link_index else f"<td>${{esc(item[{index}])}}</td>"
+            f'''<td style="white-space:pre-line"><a href="${{esc(item[{index}])}}" target="_blank" rel="noopener">${{esc(item[{index}])}}</a></td>'''
+            if index == link_index else f"<td style=\"white-space:pre-line\">${{esc(item[{index}])}}</td>"
             for index in range(len(fields))
         )
         script = f'''<script>const DATA={script_data};const esc=s=>{{const d=document.createElement('div');d.textContent=s;return d.innerHTML}};const search=document.querySelector('#{search_id}');const render=()=>{{const q=search.value.toLowerCase();const rows=DATA.filter(item=>item.join(' ').toLowerCase().includes(q));document.querySelector('#{table_id}').innerHTML=rows.length?rows.map(item=>`<tr>{cells}</tr>`).join(''):'<tr><td class="empty" colspan="{len(fields)}">No matching records.</td></tr>'}};search.addEventListener('input',render);render()</script>'''
@@ -133,9 +134,9 @@ def build_api(
             for item in ordered_records
         )
     table_body = f'''<div class="table-wrap" style="margin-top:24px"><table><thead><tr>{column_html}</tr></thead><tbody id="{table_id}">{rows}</tbody></table></div>'''
-    body = hero("Interface catalog", title, description) + f'''<section class="section"><div class="notice"><strong>Draft API catalog</strong><br>{esc(draft_note)}</div>{search}{table_body}</section>'''
+    body = hero("Interface catalog", title, description) + f'''<section class="section"><div class="notice"><strong>Catalog Status: Draft</strong><br>{esc(draft_note)}</div>{search}{table_body}</section>'''
     body += script
-    (ROOT / output_file).write_text(shell(f"{title} | RDKE", active, body, f"{title} list is evolving; a draft will be published."), encoding="utf-8")
+    (ROOT / output_file).write_text(shell(f"{title} | RDKE", active, body), encoding="utf-8")
 
 
 def build(page: str) -> None:

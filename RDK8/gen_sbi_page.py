@@ -30,6 +30,7 @@ def build_southbound() -> None:
         empty_message="No Southbound APIs have been loaded.",
         sort_field="halInterface",
         strip_release_path=True,
+        show_version=False,
     )
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ def build_hardware() -> None:
             section_html.append(f'<article class="card pdf-section"><h3>Page {esc(section.get("page"))}</h3>{text_html}{table_html}</article>')
         body += '<div class="subhead">Extracted specification</div><div class="pdf-sections">' + "".join(section_html) + "</div>"
     body += "</section>"
-    (ROOT / "hardware-specifications.html").write_text(shell("Hardware Specifications | RDKE", "hardware", body, "Hardware profile data is kept local to RDKE."), encoding="utf-8")
+    (ROOT / "hardware-specifications.html").write_text(shell("Hardware Specifications | RDKE", "hardware", body), encoding="utf-8")
 
 if __name__ == "__main__":
     build_hardware()
