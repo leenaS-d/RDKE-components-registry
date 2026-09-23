@@ -1,25 +1,26 @@
 {
-  "eyebrow": "Powering Next-Generation Entertainment Experiences",
+  "eyebrow": "RDK9 for Video",
   "title": "Core RDK Entertainment Platform",
   "description": "RDK-E is an open, modular and scalable software platform for entertainment devices and streaming ecosystems. It provides a common software foundation for rapid innovation, simplified platform integration, secure content delivery and fleet-scale operations across diverse hardware platforms.",
   "badges": ["Apache-2.0 / LGPL-2.1", "Open-source platform", "Firebolt enabled", "Thunder powered"],
+  "release_overview": "RDK9 is under active development, with the release being prepared to build on the Core RDK platform. Its specifications and interfaces are evolving toward an upcoming release for broader ecosystem adoption.",
   "why": {
     "title": "Why RDK-E?",
     "description": "RDK-E standardizes core platform functionality while allowing operators, OEMs, and technology partners to focus on creating differentiated user experiences and services. The platform provides a layered architecture that improves portability, maintainability, and time-to-market.",
     "cards": [
-      ["Application Layer", "Firebolt apps, the Lightning reference UI and the Firebolt framework — where portable third-party and OTT streaming apps run."],
-      ["Middleware Layer", "A single, consistent implementation of core device functionality — the Thunder framework, ENT services, media and DRM, and device management. This is where the Core RDK components live."],
-      ["Vendor Layer", "BSP, device drivers, HAL implementations, SoC adaptations and Linux OS integration — abstracting hardware differences behind the vendor layer."],
-      ["Independent evolution", "The layered architecture lets Application, Middleware and Platform components be developed, tested and updated independently."]
+      ["Open and reusable", "An open, modular platform built from reusable components that can be configured across STB entertainment platforms."],
+      ["Consistent interfaces", "Common APIs and services that help applications work consistently across diverse device platforms."],
+      ["Hardware portability", "Layered abstractions that reduce hardware coupling and simplify integration across SoCs and vendor platforms."],
+      ["Faster delivery", "Reusable platform capabilities that help operators, OEMs, and technology partners focus on differentiated experiences."]
     ]
   },
   "architecture": {
     "title": "Everything in the Core RDK platform",
     "cards": [
-      ["Core RDK components", "The middleware-layer components that deliver a single, consistent implementation of core RDK-E device functionality."],
-      ["Northbound APIs", "Standardized APIs the middleware exposes upward to the application layer, giving apps consistent access to device capabilities via Thunder and Firebolt."],
-      ["Southbound APIs", "The Hardware Abstraction Layer (HAL) between middleware and the platform layer — standardized interfaces that abstract hardware differences."],
-      ["Hardware specification", "Reference hardware requirements and device specifications defined for the Entertainment OS platform."]
+      ["Components Catalog", "The evolving set of Core RDK middleware components that provide shared platform functionality."],
+      ["Northbound APIs", "Application-facing interfaces that give web and native apps consistent access to platform capabilities."],
+      ["Southbound APIs", "Hardware abstraction interfaces that connect middleware with vendor implementations and platform hardware."],
+      ["RDK9 Hardware Specifications", "Reference hardware requirements and platform details supporting the upcoming RDK9 release."]
     ]
   },
   "platform_detail": [
