@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "status": "Draft",
+  "status": "Published",
   "version": "8.0.0",
   "apis": [
     {
@@ -57,7 +57,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Device",
@@ -65,7 +65,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Device",
@@ -73,7 +73,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Device",
@@ -81,7 +81,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Device",
@@ -105,7 +105,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Display",
@@ -113,7 +113,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Display",
@@ -121,7 +121,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": "???"
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Lifecycle2",
@@ -161,7 +161,7 @@
       "description": "",
       "reference": "",
       "type": "",
-      "releaseTag": ""
+      "releaseTag": "8.0.0"
     },
     {
       "component": "Localization",

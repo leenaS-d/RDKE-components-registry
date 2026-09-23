@@ -1,4 +1,5 @@
 """RDKE northbound API list generator."""
+import json
 from build import build_api
 from import_apis import convert_excel_to_json
 from pathlib import Path
@@ -20,6 +21,14 @@ def build_northbound() -> None:
         },
         optional_fields={"description", "reference", "type"},
     )
+    json_path = ROOT / "northbound-apis.json"
+    source = json.loads(json_path.read_text(encoding="utf-8"))
+    source["status"] = "Published"
+    source["version"] = "8.0.0"
+    for api in source.get("apis", []):
+        if not api.get("releaseTag") or api.get("releaseTag") == "???":
+            api["releaseTag"] = "8.0.0"
+    json_path.write_text(json.dumps(source, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     build_api(
         data_file="northbound-apis.json",
         output_file="northbound-api-spec.html",
@@ -32,7 +41,7 @@ def build_northbound() -> None:
         search_placeholder="Search Northbound APIs",
         empty_message="No Northbound APIs have been loaded.",
         sort_field="component",
-        draft_note="This is the first Firebolt API specification release, published as a development preview for early review and validation of RDK8’s standardized, versioned app API layer.",
+        draft_note="Phase I - Core Defined: the first Firebolt API specification release is published for development preview and early validation of RDK8's standardized, versioned app API layer.",
     )
 
 if __name__ == "__main__":

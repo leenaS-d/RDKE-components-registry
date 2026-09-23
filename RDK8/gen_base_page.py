@@ -16,6 +16,14 @@ CONTACT_WIDGET = """
 """.replace("__CONTACT_EMAIL__", CONTACT_EMAIL).replace("\nEmail:", "\\nEmail:").replace("\n\n", "\\n\\n")
 
 
+def benefit_cards(items: list[list[str]]) -> str:
+    cards_html = "".join(
+        f'<article class="card"><h3>{esc(item[0])}</h3><p>{esc(item[1])}</p></article>'
+        for item in items
+    )
+    return f'<style>.benefit-cards{{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){{.benefit-cards{{grid-template-columns:1fr}}}}</style><div class="grid benefit-cards">{cards_html}</div>'
+
+
 def build_home() -> None:
     content = load("home-content.json")
     components = load("components.json")
@@ -35,7 +43,7 @@ def build_home() -> None:
     body += f'''<section class="section alt"><div class="eyebrow">Current release</div><h2>RDK8 Release Overview</h2><p class="lede">{esc(content["release_overview"])}</p></section>'''
     body += f'''<section class="section"><div class="eyebrow">Components and interfaces</div><h2>Explore the Core RDK platform</h2>{linked_metric_cards(architecture["cards"][:3], architecture_links, architecture_metrics)}</section>'''
     benefits = content["benefits"]
-    body += f'''<section class="section alt"><div class="eyebrow">RDK8 benefits</div><h2>{esc(benefits["title"])}</h2>{cards(benefits["cards"])}</section>'''
+    body += f'''<section class="section alt"><div class="eyebrow">RDK8 benefits</div><h2>{esc(benefits["title"])}</h2>{benefit_cards(benefits["cards"])}</section>'''
     footer = "Copyright © 2026 RDK Management, LLC"
     page = shell("RDKE. Core RDK Entertainment Platform", "home", body, footer)
     (ROOT / "index.html").write_text(page, encoding="utf-8")
